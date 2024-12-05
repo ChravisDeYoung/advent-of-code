@@ -34,53 +34,33 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
-const input = fs.readFileSync('Day 2/input.txt', 'utf-8');
-const lines = input.trim().split('\n');
-const unusualData = lines.map(line => line.split(/\s+/).map(Number));
-// console.log('Unusual Data:', unusualData);
-const isReportSafe = (report) => {
-    const isIncreasingSafe = report.every((level, index) => {
-        if (index === 0) {
-            return true;
-        }
-        const difference = level - report[index - 1];
-        if (difference >= 1 && difference <= 3) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    });
-    const isDecreasingSafe = report.every((level, index) => {
-        if (index === 0) {
-            return true;
-        }
-        const difference = report[index - 1] - level;
-        if (difference >= 1 && difference <= 3) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    });
-    return isIncreasingSafe || isDecreasingSafe;
-};
+const input = fs.readFileSync('Day 3/input.txt', 'utf-8');
 // Part 1
-let safeCount = 0;
-unusualData.forEach((report, index) => {
-    if (isReportSafe(report)) {
-        safeCount++;
-    }
+const part1Regex = /mul\(\d+,\d+\)/gm; // mul({someNumber},{someNumber})
+const part1Matches = [...input.matchAll(part1Regex)].map(match => match[0]);
+// console.log('Matches:', part1Matches);
+let sum = 0;
+part1Matches.forEach(match => {
+    const numbers = [...match.matchAll(/\d+/gm)].map(x => Number(x[0]));
+    sum += Number(numbers[0]) * Number(numbers[1]);
 });
-console.log('Safe Report Count:', safeCount); // 564
+console.log('Part 1 Sum:', sum); // 183380722
 // Part 2
-safeCount = 0;
-unusualData.forEach(report => {
-    for (let i = 0; i < report.length; i++) {
-        if (isReportSafe(report.filter((_, index) => index !== i))) {
-            safeCount++;
-            break;
-        }
+const part2Regex = /don't\(\)|do\(\)|mul\(\d+,\d+\)/gm; // don't() or do() or mul({someNumber},{someNumber})
+const part2Matches = [...input.matchAll(/don't\(\)|do\(\)|mul\(\d+,\d+\)/gm)].map(match => match[0]);
+// console.log('Matches:', part2Matches);
+let enabled = true;
+sum = 0;
+part2Matches.forEach(match => {
+    if (match === 'do()') {
+        enabled = true;
+    }
+    else if (match === 'don\'t()') {
+        enabled = false;
+    }
+    else if (enabled) {
+        const numbers = [...match.matchAll(/\d+/gm)].map(x => Number(x[0]));
+        sum += Number(numbers[0]) * Number(numbers[1]);
     }
 });
-console.log('Safe Report Count with Problem Dampener:', safeCount); // 604
+console.log('Part 2 Sum:', sum); // 82733683
