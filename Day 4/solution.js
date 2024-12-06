@@ -125,4 +125,4 @@ for (let row = 0; row < letters.length; row++) {
         }
     }
 }
-console.log('X-MAS Count:', count); // 2401
+console.log('X-MAS Count:', count); // 1822
