@@ -106,7 +106,7 @@ while (moves.at(-1).position.row < map.length
     }
     moves.push({ position: getNextPosition(moves.at(-1).direction, moves.at(-1).position), direction: moves.at(-1).direction });
 }
-console.log('Obstacle Count:', obstacleCount); // 901
+console.log('Obstacle Count:', obstacleCount); // WRONG
 /*
 013456789
 ...#..... 0
