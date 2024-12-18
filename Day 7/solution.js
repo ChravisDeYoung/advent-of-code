@@ -82,4 +82,4 @@ problems.forEach(problem => {
         total += problem.target;
     }
 });
-console.log('Total:', total); //21572148763543
+console.log('Total:', total); //581941094529163
